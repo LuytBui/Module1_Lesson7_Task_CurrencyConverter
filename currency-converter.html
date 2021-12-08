@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chuyển đổi tiền tệ</title>
+    <style>
+        html * {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .numberValue{
+            text-align:right;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>Amount</th>
+            <th>From Currency</th>
+            <th></th>
+            <th>Result</th>
+            <th>To Currency</th>
+        </tr>
+        <tr>
+            <td>
+                <input type="number" id="amount"  class="numberValue">
+            </td>
+            <td>
+                <select id="base">
+                </select>
+            </td>
+
+            <td>
+                <button id="process">Convert</button>
+            </td>
+            <td>
+                <textarea readonly id="result" cols="30" rows="1" class="numberValue"></textarea>
+            </td>
+            <td>
+                <select id="target">
+                </select>
+            </td>
+        </tr>
+    </table>
+
+
+
+    <script>
+
+        /********          UPDATE ARGUMENTS HERE           *******/
+        const currencyList = ['USD', 'VND', 'YEN', 'WON'];
+        const currencyDisplayList = ['US Dollar', 'Vietnam Dong', 'Japanese Yen', 'Korean Won'];
+        const rateList = [1.0, 0.000044, 0.0088, 0.00085]; // currency-to-USD rate //
+
+        let amountInputElement = document.getElementById("amount");
+        let baseInputElement = document.getElementById("base");
+        let targetInputElement = document.getElementById("target");
+        let buttonElement = document.getElementById("process");
+        let resultDisplayElement = document.getElementById("result");
+        let amount=0, base, target, result=0, baseRate, targetRate;
+
+        buttonElement.addEventListener("click", process);
+        amountInputElement.addEventListener("click", newConversion);
+
+        let selectElementHTML = "";
+        for (let i = 0; i < currencyList.length; i++){
+            let currency = currencyList[i];
+            let currencyDisplay = currencyDisplayList[i];
+            selectElementHTML += '<option value="' + currency + '">' + currencyDisplay + '</option>' ;
+        }
+        console.log(selectElementHTML);
+        baseInputElement.innerHTML = selectElementHTML;
+        targetInputElement.innerHTML = selectElementHTML;
+
+        function newConversion(){
+            resultDisplayElement.value ="";
+        }
+
+        function process(){
+            amount = amountInputElement.value;
+            base = baseInputElement.value;
+            target = targetInputElement.value;
+
+            let baseIndex = currencyList.findIndex((x) => x == base);
+            baseRate = rateList[baseIndex];
+            let targetIndex = currencyList.findIndex((x) => x == target);
+            targetRate = rateList[targetIndex];
+            result = amount * baseRate / targetRate;
+            // amountInputElement.value = amount.toLocaleString(undefined,{ minimumFractionDigits: 2 });
+            resultDisplayElement.value = result.toLocaleString(undefined,{ minimumFractionDigits: 2 });
+
+            console.log('currency list: ' + currencyList);
+            console.log('currency display list: ' + currencyDisplayList);
+            console.log('rate list: ' + rateList);
+            console.log('amount: ' + amount);
+            console.log('base: ' + base);
+            console.log('baserate: ' + baseRate);
+            console.log('target: ' + target);
+            console.log('targetRate: ' + targetRate);
+            console.log('result: ' + result);
+        }
+
+    </script>
+</body>
+</html>
