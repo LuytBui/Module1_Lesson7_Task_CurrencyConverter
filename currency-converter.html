@@ -52,13 +52,17 @@
         const currencyDisplayList = ['US Dollar', 'Vietnam Dong', 'Japanese Yen', 'Korean Won'];
         const rateList = [1.0, 0.000044, 0.0088, 0.00085]; // currency-to-USD rate //
 
-        let amountInputElement = document.getElementById("amount");
-        let baseInputElement = document.getElementById("base");
-        let targetInputElement = document.getElementById("target");
-        let buttonElement = document.getElementById("process");
-        let resultDisplayElement = document.getElementById("result");
-        let amount=0, base, target, result=0, baseRate, targetRate;
+        function $get(id) {
+            return document.getElementById(id);
+        }
 
+        let amountInputElement = $get("amount");
+        let baseInputElement = $get("base");
+        let targetInputElement = $get("target");
+        let buttonElement = $get("process");
+        let resultDisplayElement = $get("result");
+
+        let amount=0, base, target, result=0, baseRate, targetRate;
         buttonElement.addEventListener("click", process);
         amountInputElement.addEventListener("click", newConversion);
 
